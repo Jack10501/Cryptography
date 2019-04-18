@@ -95,12 +95,16 @@ def f_k(bits, key):
     return xor(bits, left)
 
 
+def switch(bits, temp):
+    return get_right(bits) + temp
+
+
 def encrypt(pt, key):
     """Perform initial IP before fk"""
     bits = permutation(pt, IP)
     """First fk taking in k1"""
     temp = f_k(bits, key1(key))
-    bits = get_right(bits) + temp
+    bits = switch(bits, temp)
     """Second fk taking in k2"""
     bits = f_k(bits, key2(key))
     """Change the binary number to an int ascii value and then to a 
@@ -113,7 +117,7 @@ def decrypt(ct, key):
     bits = permutation(ct, IP)
     """First fk taking in k2"""
     temp = f_k(bits, key2(key))
-    bits = get_right(bits) + temp
+    bits = switch(bits, temp)
     """second fk taking in k1"""
     bits = f_k(bits, key1(key))
     """Change the binary number to an int ascii value and then to a 
@@ -138,18 +142,19 @@ def str_con(bi):
 def key_con(key):
     """Converts the given key to a binary number"""
     """rjust() forces the key to be 10 bits and pads with 0's at the start"""
-    new_key = ''.join(format(int(key), 'b'))
+    temp_key = 0
+    for ii in key:
+        temp_key = temp_key + ord(ii)
+        print(temp_key)
+    """Ensures it's within 8 bits"""
+    temp_key = temp_key % 256
+    print("AFTER MOD " + str(temp_key))
+    new_key = ''.join(format(temp_key, 'b'))
     if len(new_key) != 10:
         new_key = new_key.rjust(10, '0')
+
+    print(new_key)
     return new_key
-
-
-def check_key(key):
-    """Ensures the key is above 0 and below 256"""
-    if int(key) < 1 or int(key) > 255:
-        print("INVALID KEY\nPlease enter a value between 1 and "
-              "255 inclusive")
-        sys.exit(1)
 
 
 def main():
@@ -158,19 +163,24 @@ def main():
     if len(sys.argv) != 5:
         print("Please enter correct values\n"
               "SDES.py <mode> <key> <inFile> <outFile>\n"
-              "Modes: -e: Encrypt, -d: decrypt")
+              "Modes: -e: Encrypt, -d: decrypt\n"
+              "Key: any combination of keyboard characters\n"
+              "File: Files MUST be created before running for optimal results")
         sys.exit(1)
 
     """Assign Vars"""
     mode = sys.argv[1]
     key = sys.argv[2]
-    """Ensure key is within bounds"""
-    check_key(key)
+
     """Convert and pad key for 10 bits"""
     key = key_con(key)
-
-    in_file = open(sys.argv[3], 'r', encoding="utf-8")
-    out_file = open(sys.argv[4], 'w', encoding="utf-8")
+    try:
+        in_file = open(sys.argv[3], 'r', encoding="utf-8")
+        out_file = open(sys.argv[4], 'w', encoding="utf-8")
+    except IOError:
+        print("IO Error encountered\n"
+              "Please ensure all files are created before running")
+        sys.exit(1)
 
     if mode == "-e":
         while True:
@@ -194,19 +204,5 @@ def main():
             out_file.write(decrypt(bin_ct, key))
 
 
-def test():
-    key = key_con(sys.argv[1])
-    print(key)
-    print(int(key, 2))
-    """CHANGE TEXT TO BIN"""
-    st = "t"
-    newst = bin_con(st[0])  # Pass 1 at a time to convert and encrypt and place, then do next
-    print("STR 0 TO BIN: " + newst)
-    print("BIN BACK TO STR SHOULD BE T : " + chr(int(newst, 2)))
-    encrypt(newst, key)
-    decrypt('01111100', key)
-
-
 if __name__ == '__main__':
     main()
-    # test()
