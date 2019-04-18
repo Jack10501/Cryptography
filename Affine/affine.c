@@ -12,7 +12,8 @@ int main(int argc, char *argv[]) {
 
     // Check number of args are correct
     if(argc != ARGS) {
-        fprintf(stderr, "Requires <Flag> <Input File> <Output File> <Key A> <Key B>\n"
+        fprintf(stderr, "Requires <Flag> <Input File> "
+                        "<Output File> <Key A> <Key B>\n"
                         "Process Exited\n");
         return ERROR;
     }
@@ -54,7 +55,8 @@ int main(int argc, char *argv[]) {
     }
 
     while(feof(fIn) == 0 && ferror(fIn) == 0 && ferror(fOut) == 0) {
-        //This will also grab an EOF char but this is negated in the next if statement
+        //This will also grab an EOF char but
+        // this is negated in the next if statement
         nextChar = fgetc(fIn);
 
         //Ensures an EOF char isn't placed into the output file
@@ -79,7 +81,8 @@ char encrypt(char txt, int keyA, int keyB) {
     // and matches our table that runs from 0-25, then add the a back on
     // so the ascii is back in the a-z/A-Z range
 
-    // Only checks for upper or lower case letters using isupper/lower from ctype.h
+    // Only checks for upper or lower case letters using
+    // isupper/lower from ctype.h
     if (isupper(txt)) {
         return ((((int)txt - 'A') * keyA + keyB) % ALPHA) + 'A';
     } else if (islower(txt)) {

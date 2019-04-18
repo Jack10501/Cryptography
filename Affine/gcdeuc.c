@@ -43,7 +43,8 @@ int gcd(int a, int b) {
         return b;
     }
     //If not, mod b by a and check if that is equal on the next run
-    //Works on the same principle as taking away since: 60 % 36 = 24 & 60-36 = 24
+    //Works on the same principle as taking away since:
+    // 60 % 36 = 24 & 60-36 = 24
     return gcd(b % a, a);
 }
 
