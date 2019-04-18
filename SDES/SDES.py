@@ -96,6 +96,7 @@ def f_k(bits, key):
 
 
 def switch(bits, temp):
+    """Performs the switch between the right and left bits"""
     return get_right(bits) + temp
 
 
@@ -127,7 +128,6 @@ def decrypt(ct, key):
 
 def bin_con(st):
     """Converts a string into a binary string"""
-    """Ord returns the unicode's int value"""
     new_st = ''.join(format(ord(x), 'b') for x in st)
     if len(new_st) != 8:
         new_st = new_st.rjust(8, '0')
@@ -140,31 +140,29 @@ def str_con(bi):
 
 
 def key_con(key):
-    """Converts the given key to a binary number"""
+    """Places the key within bounds by modding it by 256 to ensure 8 bits then
+    Converts the given key to a binary number"""
     """rjust() forces the key to be 10 bits and pads with 0's at the start"""
     temp_key = 0
     for ii in key:
         temp_key = temp_key + ord(ii)
-        print(temp_key)
-    """Ensures it's within 8 bits"""
+    """Ensures it's within 8 bits, this allows us to take in any key"""
     temp_key = temp_key % 256
-    print("AFTER MOD " + str(temp_key))
+    """Now format the key in binary"""
     new_key = ''.join(format(temp_key, 'b'))
+    """Pad the key"""
     if len(new_key) != 10:
         new_key = new_key.rjust(10, '0')
-
-    print(new_key)
     return new_key
 
 
 def main():
-    """Checking args are correct
-    SDES.py -e/-d key inFile outFile """
+    """Checking args are correct"""
     if len(sys.argv) != 5:
         print("Please enter correct values\n"
               "SDES.py <mode> <key> <inFile> <outFile>\n"
               "Modes: -e: Encrypt, -d: decrypt\n"
-              "Key: any combination of keyboard characters\n"
+              "Key: any combination of keyboard characters (NO SPACE)\n"
               "File: Files MUST be created before running for optimal results")
         sys.exit(1)
 
@@ -174,6 +172,7 @@ def main():
 
     """Convert and pad key for 10 bits"""
     key = key_con(key)
+    """Attempt to open the files"""
     try:
         in_file = open(sys.argv[3], 'r', encoding="utf-8")
         out_file = open(sys.argv[4], 'w', encoding="utf-8")
@@ -182,6 +181,7 @@ def main():
               "Please ensure all files are created before running")
         sys.exit(1)
 
+    """Check if the mode is to encrypt or decrypt"""
     if mode == "-e":
         while True:
             pt = in_file.read(1)
