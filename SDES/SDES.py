@@ -138,11 +138,6 @@ def bin_con(st):
     return new_st
 
 
-def str_con(bi):
-    """Converts a binary value to its character"""
-    print(''.join(format(ord(bi), 'c')))
-
-
 def key_con(key):
     """Places the key within bounds by modding it by 256 to ensure 8 bits then
     Converts the given key to a binary number"""
