@@ -30,7 +30,6 @@ def permutation(original_key, perm):
     new_key = ''
     for ii in perm:
         new_key += original_key[ii-1]
-
     return new_key
 
 
