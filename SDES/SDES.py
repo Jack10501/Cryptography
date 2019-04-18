@@ -93,6 +93,9 @@ def f_k(bits, key):
     bits = sbox(get_left(bits), S0) + sbox(get_right(bits), S1)
     """Perform P4 permutation"""
     bits = permutation(bits, P4)
+    """Below allows for a switch/ swap to occur as this 
+    retrieves the left bits allowing them to be added to the
+    right bits"""
     return xor(bits, left)
 
 
