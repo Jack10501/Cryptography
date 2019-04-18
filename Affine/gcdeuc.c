@@ -25,10 +25,11 @@ int validKeys(int keyA, int keyB, int alpha){
     greatestComDiv = gcd(keyA, alpha);
     if(greatestComDiv != 1) {
         printf("Keys are not co-prime\n");
+        //Cannot be ERROR = 1 constant because gcd must return 1 to be valid
         return 2;
     }
 
-    // A valid key get returned
+    // A valid key will get returned
     return greatestComDiv;
 }
 

@@ -56,17 +56,12 @@ int main(int argc, char *argv[]) {
     while(feof(fIn) == 0 && ferror(fIn) == 0 && ferror(fOut) == 0) {
         //This will also grab an EOF char but this is negated in the next if statement
         nextChar = fgetc(fIn);
-        //TEST
-        printf(" %c =>", nextChar);
 
-        //Ensures an end of file char isn't placed into the output file
+        //Ensures an EOF char isn't placed into the output file
         if(feof(fIn) == 0) {
             //Put new char into the output file
             fputc((*fp)(nextChar, keyA, keyB), fOut);
         }
-
-        //TEST
-        printf("\n");
     }
 
     //Close the input and output files
@@ -86,15 +81,10 @@ char encrypt(char txt, int keyA, int keyB) {
 
     // Only checks for upper or lower case letters using isupper/lower from ctype.h
     if (isupper(txt)) {
-        //TEST
-        printf(" %c", ((((int)txt - 'A') * keyA + keyB) % ALPHA) + 'A');
         return ((((int)txt - 'A') * keyA + keyB) % ALPHA) + 'A';
     } else if (islower(txt)) {
-        //TEST
-        printf(" %c", ((((int)txt - 'a') * keyA + keyB) % ALPHA) + 'a');
         return ((((int)txt - 'a') * keyA + keyB) % ALPHA) + 'a';
     }
-
     // Ignores non-letter characters and returns plain text
     return txt;
 }
