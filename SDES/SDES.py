@@ -1,5 +1,6 @@
 """Created by Jack Paull
-SDES encryption algorithm with components that have been adapted from stack exchange"""
+SDES encryption algorithm with components that
+have been adapted from stack exchange"""
 import sys
 
 """Const Parameters"""
@@ -139,9 +140,10 @@ def bin_con(st):
 
 
 def key_con(key):
-    """Places the key within bounds by modding it by 256 to ensure 8 bits then
-    Converts the given key to a binary number"""
-    """rjust() forces the key to be 10 bits and pads with 0's at the start"""
+    """Places the key within bounds by modding it by
+    256 to ensure 8 bits then Converts the given key
+    to a binary number, rjust() forces the key to
+    be 10 bits and pads with 0's at the start"""
     temp_key = 0
     for ii in key:
         temp_key = temp_key + ord(ii)
@@ -162,7 +164,8 @@ def main():
               "SDES.py <mode> <key> <inFile> <outFile>\n"
               "Modes: -e: Encrypt, -d: decrypt\n"
               "Key: any combination of keyboard characters (NO SPACE)\n"
-              "File: Files MUST be created before running for optimal results")
+              "File: Files MUST be created before running "
+              "for optimal results")
         sys.exit(1)
 
     """Assign Vars"""
