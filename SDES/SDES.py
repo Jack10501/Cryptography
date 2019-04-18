@@ -1,3 +1,5 @@
+"""Created by Jack Paull
+SDES encryption algorithm that has been adapted from resources"""
 import sys
 
 """Const Parameters"""
