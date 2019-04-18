@@ -1,5 +1,5 @@
 """Created by Jack Paull
-SDES encryption algorithm that has been adapted from resources"""
+SDES encryption algorithm with components that have been adapted from stack exchange"""
 import sys
 
 """Const Parameters"""
