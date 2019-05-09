@@ -1,6 +1,9 @@
 """Created by Jack Paull
 A re-written python3.7 implementation of GCD and Extended
 GCD used in Affine cipher previously written in C"""
+from random import randrange
+
+import constant
 
 
 def gcd(a, b):
@@ -51,9 +54,62 @@ def extended_gcd(a, n):
     return t
 
 
+def prime_check(given_num):
+    """Calculates if a number is prime to some confidence level"""
+    is_prime = True
+    ran = randrange(1, 32767)
+
+    a = (ran % given_num) + 1
+    exponent = (given_num - 1) >> 1
+    r = modular_exponent(a, exponent, given_num)
+
+    # If r isn't 1 or -1 then it's 100% not prime
+    if not ((r == 1) or (r == (given_num - 1))):
+        return False
+
+    # Otherwise can't prove that it isn't
+    return is_prime
+
+
+def modular_exponent(base, exponent, mod):
+    """Calculates the value base^exponent % mod efficiently"""
+    result = 1
+    base = base % mod
+
+    # Ensure number is below upper limit
+    if (base > constant.LIMIT) or (exponent > constant.LIMIT) or (mod > constant.LIMIT):
+        return -1
+
+    # Review exponents loop
+    while exponent > 0:
+        # Check the least significant bit
+        if exponent & 1:
+            result = (result * base) % mod
+
+        # After check now shift to check next bit
+        exponent >>= 1
+        base = (base * base) % mod
+
+    return result
+
+
+def prime_gen():
+    """Generates a new random prime between 1000 and 10000"""
+    while True:
+        prime = (randrange(1, 32767) % (constant.UPPER_LIMIT - constant.LOWER_LIMIT)) + constant.LOWER_LIMIT
+
+        # loop till we find a prime
+        if prime_check(prime):
+            print("This is prime " + str(prime))
+            return prime
+
+
 if __name__ == '__main__':
     """Only gcd() needs to be used to prove Q1
     """
-    print(gcd(7, 26))
-    print(gcd(26, 7 % 26))
+    # print(gcd(7, 26))
+    # print(gcd(26, 7 % 26))
+
+    print(prime_gen())
+
 
