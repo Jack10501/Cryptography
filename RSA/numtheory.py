@@ -59,13 +59,14 @@ def prime_check(given_num):
     is_prime = True
     ran = randrange(1, 32767)
 
-    a = (ran % given_num) + 1
-    exponent = (given_num - 1) >> 1
-    r = modular_exponent(a, exponent, given_num)
+    for ii in range(constant.PRIME_TESTS):
+        a = (ran % given_num) + 1
+        exponent = (given_num - 1) >> 1
+        r = modular_exponent(a, exponent, given_num)
 
-    # If r isn't 1 or -1 then it's 100% not prime
-    if not ((r == 1) or (r == (given_num - 1))):
-        return False
+        # If r isn't 1 or -1 then it's 100% not prime
+        if not ((r == 1) or (r == (given_num - 1))):
+            return False
 
     # Otherwise can't prove that it isn't
     return is_prime
@@ -110,6 +111,6 @@ if __name__ == '__main__':
     # print(gcd(7, 26))
     # print(gcd(26, 7 % 26))
 
-    print(prime_gen())
+    # print(prime_gen())
 
 
