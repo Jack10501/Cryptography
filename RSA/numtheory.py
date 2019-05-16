@@ -103,14 +103,3 @@ def prime_gen():
         if prime_check(prime):
             print("This is prime " + str(prime))
             return prime
-
-
-if __name__ == '__main__':
-    """Only gcd() needs to be used to prove Q1
-    """
-    # print(gcd(7, 26))
-    # print(gcd(26, 7 % 26))
-
-    # print(prime_gen())
-
-
