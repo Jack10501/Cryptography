@@ -21,85 +21,62 @@ def main():
     calc_e_n(key_a, key_b)
     print("Values generated; N:" + str(n) + ", E: " + str(e) +
           ", D: " + str(d))
-    # Perform encryption and then decryption
-    encrypt()
-    decrypt()
 
-
-def encrypt():
-    """Performs the RSA encrypt on a plain text"""
-    # Open files
+    # Attempt to open the files
     try:
         in_file = open("in.txt", 'r', encoding="utf-8")
         out_file = open("out.txt", 'w', encoding="utf-8")
     except IOError:
-        print("IO Error encountered")
+        print("IO Error encountered\n"
+              "Please ensure all files are created before running\n"
+              "Make sure in file is called in.txt and out is out.txt")
         sys.exit(1)
 
-    # Encrypt files
+    # Perform encryption
     print("Encrypting: " + in_file.name + " to: " + out_file.name)
     while True:
-        pt = 0
-        ct = 0
-        for ii in range(2):
-            c = in_file.read(1)
-            if not c:
-                in_file.close()
-                out_file.close()
-                print("Encryption of: " + in_file.name + " Complete")
-                break
-            else:
-                # Perform encryption
-                pt += ord(c) << ((1 - ii) << 3)
-
-        # If files already close, don't try write more
-        if out_file.closed:
+        pt = in_file.read(1)
+        if not pt:
+            in_file.close()
+            out_file.close()
+            print("Encryption of: " + in_file.name + " Complete")
             break
+        out_file.write(chr(encrypt(pt)))
 
-        # If nothing, ignore
-        if pt != 0:
-            ct = numtheory.modular_exponent(pt, e, n)
-            for ii in range(4):
-                c = ct >> ((3 - ii) << 3)
-                out_file.write(str(c))
-
-
-def decrypt():
-    """Converts cipher text back into plain text"""
-    # Open files
+    # Attempt to open the files
     try:
-        in_file = open("out.txt", 'r', encoding="utf-8")
-        out_file = open("nout.txt", 'w', encoding="utf-8")
+        in_file = open("out.txt", 'r',)
+        out_file = open("nout.txt", 'w',)
     except IOError:
-        print("IO Error encountered")
+        print("IO Error encountered\n"
+              "Please ensure all files are created before running\n")
         sys.exit(1)
 
-    # Decrypt files
+    # Perform decryption
     print("Decrypting: " + in_file.name + " to: " + out_file.name)
     while True:
-        ct = 0
-        pt = 0
-        for ii in range(4):
-            c = in_file.read(1)
-            if not c:
-                in_file.close()
-                out_file.close()
-                print("Decryption of: " + in_file.name + " Complete")
-                break
-            # Perform decryption
-            ct += ord(c) << ((3 - ii) << 3)
-
-        # If files already close, don't try write more
-        if out_file.closed:
+        ct = in_file.read(1)
+        if not ct:
+            in_file.close()
+            out_file.close()
+            print("Decryption of: " + in_file.name + " Complete")
             break
+        out_file.write(chr(decrypt(ct) % 255))
 
-        # If nothing, ignore
-        if ct != 0:
-            pt = numtheory.modular_exponent(ct, int(d), n)
-            for ii in range(2):
-                c = pt >> ((1 - ii) << 3)
-                if c != 0:
-                    out_file.write(str(c))
+
+def encrypt(pt):
+    """Performs the RSA encrypt on a plain text"""
+    # Encrypt files
+    ct = numtheory.modular_exponent(ord(pt), e, n)
+    print(ct)
+    return ct
+
+
+def decrypt(ct):
+    """Converts cipher text back into plain text"""
+    # Decrypt files
+    pt = numtheory.modular_exponent(ord(ct), d, n)
+    return pt
 
 
 def calc_e_n(key_a, key_b):

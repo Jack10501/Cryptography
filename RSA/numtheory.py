@@ -101,5 +101,4 @@ def prime_gen():
 
         # loop till we find a prime
         if prime_check(prime):
-            print("This is prime " + str(prime))
             return prime
