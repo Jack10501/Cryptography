@@ -88,7 +88,7 @@ def calc_e_n(key_a, key_b):
     tot_n = (key_a - 1) * (key_b - 1)
 
     while numtheory.gcd(e, tot_n) != 1:
-        e = randrange(391875609, 1802123742) % tot_n
+        e = randrange(1, 32767) % tot_n
 
     d = numtheory.extended_gcd(e, tot_n)
 
